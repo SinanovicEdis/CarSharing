@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package si.um.feri.ita.vaje;
+
+// The UporabnikService definition.
+service UporabnikService {
+  // Creates a new uporabnik
+  rpc CreateUporabnik (CreateUporabnikRequest) returns (UporabnikResponse) {}
+
+  // Retrieves an uporabnik by ID
+  rpc GetUporabnik (GetUporabnikRequest) returns (UporabnikResponse) {}
+
+  rpc UpdateUporabnik (UpdateUporabnikRequest) returns (UporabnikResponse) {};
+
+  rpc DeleteUporabnik (GetUporabnikRequest) returns (UporabnikResponse) {};
+}
+
+// Request message for creating an uporabnik
+message CreateUporabnikRequest {
+  string uporabnisko_ime = 1;
+  int32 starost = 2;
+}
+
+message UpdateUporabnikRequest {
+  string id = 1;
+  string uporabnisko_ime = 2;
+  string starost = 3;
+}
+
+// Request message for getting an uporabnik
+message GetUporabnikRequest {
+  string id = 1;
+}
+
+// Response message containing uporabnik details
+message UporabnikResponse {
+  string id = 1;
+  string uporabnisko_ime = 2;
+  int32 starost = 3;
+}
