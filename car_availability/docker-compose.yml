@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+
+  mysql_db:
+    image: mysql:8.3.0
+    restart: always
+    expose:
+      - 3306
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_USER=uporabnik
+      - MYSQL_PASSWORD=uporabnik
+      - MYSQL_DATABASE=carAvailability
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - mysql_db:/var/lib/mysql
+
+volumes:
+    mysql_db:
