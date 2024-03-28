@@ -19,6 +19,9 @@ public class CarService {
     @Inject
     CarRepository CarRepository;
 
+    @Inject
+    ActiveMqService activeMqService;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<Car> addCarAvailability(CarPost v) {
@@ -28,6 +31,8 @@ public class CarService {
 
         Logger.getLogger(CarService.class.getName()).info("Adding car: " + car.getName());
 
+        activeMqService.sendMessageToActiveMQ(car, "A new car availability info has been added");
+
         return CarRepository.addCar(car);
     }
 
@@ -35,6 +40,7 @@ public class CarService {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<List<Car>> getCarsAvailability() {
         log.info("Getting cars");
+        activeMqService.sendMessageToActiveMQ(null, "Getting all cars availability info");
         return CarRepository.listAll()
                 .onItem()
                 .transform(cars -> cars.stream().map(car -> {
@@ -52,6 +58,8 @@ public class CarService {
     //@Transactional
     public Uni<Boolean> deleteCarAvailability(@PathParam("id") Long id) {
         log.info("Deleting car: " + id);
+        Car car = (Car) CarRepository.findById(id);
+        activeMqService.sendMessageToActiveMQ(car, "A car availability info has been deleted");
         return CarRepository.deleteCar(id);
     }
 
@@ -60,6 +68,8 @@ public class CarService {
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<Car> addCarAvailabilityById(@PathParam("id") Long id) {
         log.info("Getting car: " + id);
+        Car car = (Car) CarRepository.findById(id);
+        activeMqService.sendMessageToActiveMQ(car, "Getting car availability info by id");
         return CarRepository.findById(id);
     }
 }

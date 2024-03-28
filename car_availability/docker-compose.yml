@@ -17,5 +17,20 @@ services:
     volumes:
       - mysql_db:/var/lib/mysql
 
+  activemq:
+    image: webcenter/activemq:latest
+    environment:
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+      ACTIVEMQ_WRITE_LOGIN: writer
+      ACTIVEMQ_WRITE_PASSWORD: writer
+      ACTIVEMQ_READ_LOGIN: reader
+      ACTIVEMQ_READ_PASSWORD: reader
+    ports:
+      - "8161:8161" # Admin console
+      - "61616:61616" # JMS
+      - "5672:5672" # AMQP
+      - "61613:61613" # STOMP
+
 volumes:
     mysql_db:
