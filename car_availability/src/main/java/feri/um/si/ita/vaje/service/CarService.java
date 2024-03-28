@@ -21,7 +21,6 @@ public class CarService {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    //@Transactional
     public Uni<Car> addCarAvailability(CarPost v) {
         Car car = new Car();
         car.setName(v.name);
